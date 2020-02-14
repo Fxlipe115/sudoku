@@ -19,8 +19,7 @@ def main(stdscr):
     print('Original:')
     print(game)
 
-    #stdscr.clear()
-    curses.echo
+    curses.echo()
     cont = SudokuController(stdscr, game)
     cont.play()
     

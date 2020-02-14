@@ -12,13 +12,19 @@ class SudokuController:
         self.cursor_y = 0
 
     def play(self):
+        self.scr.clear()
         while True:
-            pressed_key = self.scr.getch()
-            if pressed_key != curses.ERR:
-                if chr(pressed_key).isdigit():
-                    self.game.board[0,0] = chr(pressed_key)
+            try:
+                pressed_key = self.scr.getkey()
+            except Exception:
+                pass
+            else:
+                if pressed_key.isdigit():
+                    self.game.board[0,0] = int(pressed_key)
                     break
+
             self.print_board()
+
             self.scr.refresh()
         
     def print_board(self):
@@ -45,4 +51,3 @@ class SudokuController:
                                             for x in self.game.board.flatten()]
                                    )
                               ))
-        self.scr.refresh()

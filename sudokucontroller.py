@@ -1,5 +1,5 @@
-import curses
 import numpy as np
+import curses
 
 from sudokusolver import Sudoku
 
@@ -11,21 +11,27 @@ class SudokuController:
         self.cursor_x = 0
         self.cursor_y = 0
 
+        #self.scr.nodelay(True)
+
     def play(self):
         self.scr.clear()
-        while True:
-            try:
-                pressed_key = self.scr.getkey()
-            except Exception:
-                pass
-            else:
-                if pressed_key.isdigit():
-                    self.game.board[0,0] = int(pressed_key)
-                    break
+        self.print_board()
+        self.scr.refresh()
 
-            self.print_board()
+        pressed_key = -1
+        curses.nocbreak()
+
+        while True:
+            if pressed_key != -1:
+                self.game.board[0,0] = int(pressed_key)
+                self.scr.addstr(0, 0, str(pressed_key))
+
+            
+            #self.scr.addstr(1,2,'A')
 
             self.scr.refresh()
+
+            pressed_key = self.scr.getch()
         
     def print_board(self):
         self.scr.addstr(0, 0, ('╔═══╤═══╤═══╦═══╤═══╤═══╦═══╤═══╤═══╗\n'

@@ -7,18 +7,24 @@ class Sudoku:
         if self.board.shape != (9, 9):
             raise('Invalid format: Input must be a 9x9 matrix')
 
+        self.screen_coord = [
+                                [(y,x) for x in range(2,38,4)] 
+                                    for y in range(1,26,2)
+                            ]
+
     def possible(self, y, x, n):
         for i in range(9):
-            if self.board[y, i] == n:
+            if i != x and self.board[y, i] == n:
                 return False
         for i in range(9):
-            if self.board[i, x] == n:
+            if i != y and self.board[i, x] == n:
                 return False
         x0 = (x//3)*3
         y0 = (y//3)*3
         for i in range(3):
             for j in range(3):
-                if self.board[y0+i, x0+j] == n:
+                if (y != y0+i and x != x0+j and 
+                        self.board[y0+i, x0+j] == n):
                     return False
         return True
 
@@ -33,7 +39,29 @@ class Sudoku:
                             self.board[y, x] = 0
                     return
         print(self)
-        
+
+    def print_board(self):
+        return ('╔═══╤═══╤═══╦═══╤═══╤═══╦═══╤═══╤═══╗\n'
+                '║   │   │   ║   │   │   ║   │   │   ║\n'
+                '╟───┼───┼───╫───┼───┼───╫───┼───┼───╢\n'
+                '║   │   │   ║   │   │   ║   │   │   ║\n'
+                '╟───┼───┼───╫───┼───┼───╫───┼───┼───╢\n'
+                '║   │   │   ║   │   │   ║   │   │   ║\n'
+                '╠═══╪═══╪═══╬═══╪═══╪═══╬═══╪═══╪═══╣\n'
+                '║   │   │   ║   │   │   ║   │   │   ║\n'
+                '╟───┼───┼───╫───┼───┼───╫───┼───┼───╢\n'
+                '║   │   │   ║   │   │   ║   │   │   ║\n'
+                '╟───┼───┼───╫───┼───┼───╫───┼───┼───╢\n'
+                '║   │   │   ║   │   │   ║   │   │   ║\n'
+                '╠═══╪═══╪═══╬═══╪═══╪═══╬═══╪═══╪═══╣\n'
+                '║   │   │   ║   │   │   ║   │   │   ║\n'
+                '╟───┼───┼───╫───┼───┼───╫───┼───┼───╢\n'
+                '║   │   │   ║   │   │   ║   │   │   ║\n'
+                '╟───┼───┼───╫───┼───┼───╫───┼───┼───╢\n'
+                '║   │   │   ║   │   │   ║   │   │   ║\n'
+                '╚═══╧═══╧═══╩═══╧═══╧═══╩═══╧═══╧═══╝'
+                )
+
     def __str__(self):
         s = ('╔═══╤═══╤═══╦═══╤═══╤═══╦═══╤═══╤═══╗\n'
              '║ {} │ {} │ {} ║ {} │ {} │ {} ║ {} │ {} │ {} ║\n'
